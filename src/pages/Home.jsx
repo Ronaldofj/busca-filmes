@@ -9,11 +9,11 @@ import FilmeCard from '../components/FilmeCard';
 const Form = styled.form`
 	width: 100%;
 	padding: 60px 30px;
-	/* box-shadow: ${(props) => props.theme.sombra2}; */
 	border-radius: 15px;
 	background-color: ${(props) => props.theme.primary};
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box;
 
 	p {
 		font-size: 30px;
@@ -39,7 +39,6 @@ const Submit = styled.button`
 	cursor: pointer;
 	border-radius: 10px;
 	outline: none;
-	/* text-transform: uppercase; */
 	margin-left: 10px;
 	font-weight: bold;
 	box-shadow: ${(props) => props.theme.sombra1};
@@ -50,7 +49,13 @@ const Submit = styled.button`
 	}
 `;
 
-const ListCards = styled.div``;
+const ListCards = styled.div`
+	margin-top: 60px;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+`;
 
 
 function Home() {
@@ -58,10 +63,25 @@ function Home() {
     filmeName: '',
   });
 
-  const [filme, setFilme] = useState({});
+  const [filme, setFilme] = useState(undefined);
+
 
   const handleInput = ({ currentTarget: { name, value } }) => {
     setInfo({ ...info, [name]: value });
+  };
+
+  const addFavoritos = () => {
+    const favoritos = localStorage.getItem('@user-data/filmes-favoritos');
+
+    if (favoritos === null) {
+      const data = [filme];
+      localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
+    } else {
+      const data = JSON.parse(favoritos);
+      data.push(filme);
+      console.log(data);
+      localStorage.setItem('@user-data/favoritos', JSON.stringify(data));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -69,10 +89,7 @@ function Home() {
 
     await axios.get(`http://www.omdbapi.com/?t=${info.filmeName}&apikey=218dfffb`).then((resp) => {
       setFilme(resp.data);
-      console.log(resp.data);
     });
-
-    console.log(info, filme);
   };
 
   return (
@@ -95,9 +112,7 @@ function Home() {
         </div>
       </Form>
       <ListCards>
-        <div>
-					daora
-        </div>
+        {filme && filme !== undefined && <FilmeCard filme={filme} handleClick={() => addFavoritos()} />}
       </ListCards>
     </Container>
   );
