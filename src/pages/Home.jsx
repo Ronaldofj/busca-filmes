@@ -83,6 +83,8 @@ function Home() {
     if (favoritos === null) {
       const data = [filme];
       localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
+
+      alert('Filme adicionado aos Favoritos!');
     } else {
       const data = JSON.parse(favoritos);
 

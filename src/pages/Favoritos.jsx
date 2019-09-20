@@ -39,7 +39,7 @@ export default function Favoritos() {
     <Container>
       <ListCards>
         {favoritos && favoritos.length >= 1 && favoritos.map((favorito) => <FilmeCard filme={favorito} pagina="favoritos" />)}
-        {favoritos && favoritos.length < 1 && controles.pesquisa && <p className="aviso">Sem favoritos!</p>}
+        {favoritos && favoritos.length < 1 && controles.pesquisa === true || favoritos === null && controles.pesquisa === true && <p className="aviso">Sem favoritos!</p>}
       </ListCards>
     </Container>
   );
