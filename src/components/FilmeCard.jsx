@@ -2,83 +2,83 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-// import { Container } from './styles';
-
 const Button = styled.button`
-	background-color: ${(props) => props.theme.primary};
-	color: #fff;
-	font-weight: bold;
-	border-radius: 5px;
-	padding: 10px;
-	border: none;
+  background-color: ${(props) => (props.favorito === true ? '#D3D3D3' : props.theme.primary)};
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
 
-	margin: 0 5px;
-	cursor: pointer;
-	outline: none;
+  margin: 0 5px;
+  cursor: ${(props) => (props.favorito === true ? 'initial' : 'pointer')};
+  outline: none;
 `;
 
 const FilmeCardWrapper = styled.div`
-	box-shadow: ${(props) => props.theme.sombra1};
-	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-	border-radius: 10px;
-	overflow: hidden;
+  box-shadow: ${(props) => props.theme.sombra1};
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 40px;
 
-	display: flex;
+  display: flex;
   width: 550px;
-	box-sizing: border-box;
-	
+  box-sizing: border-box;
 
-	img{
-		height: 300px;
-	}
 
-	.filme-card {
-		&__title{
-			background-color: ${(props) => props.theme.primary};
-			font-size: 25px;
-			font-weight: bold;
-			text-align: center;
-			padding: 20px 0;
-			margin-top: -3px;
-		}
+  img{
+    height: 300px;
+  }
 
-		&__text {
-			color: ${(props) => props.theme.primary};
-			font-weight: bold;
-			margin: 20px 10px;	
-		}
+  .filme-card {
+    &__title{
+      background-color: ${(props) => props.theme.primary};
+      font-size: 25px;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: -3px;
+      color: #fff;
+    }
 
-		&__content-wrapper{
-			width: 100%;
-		}
+    &__text {
+      color: ${(props) => props.theme.black};
+      font-weight: bold;
+      margin: 20px 10px;
+    }
 
-		&__buttons-wrapper {
-			margin: 5px;
-			display: flex;
-			justify-content: flex-end;
-		}
-	}
+    &__content-wrapper{
+      width: 100%;
+    }
 
-	&:hover {
-		box-shadow: ${(props) => props.theme.sombra2};
-	}
+    &__buttons-wrapper {
+      margin: 5px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  &:hover {
+    box-shadow: ${(props) => props.theme.sombra2};
+  }
 `;
 
 const Rating = styled.div`
-	display: flex;
-	align-items: center; 
-	margin: 5px 10px;
- 
-	img{
-		width: 25px;
-		height: 25px;
-	}
+  display: flex;
+  align-items: center;
+  margin: 5px 10px;
 
-	p{
-		color: ${(props) => props.theme.primary};
-		font-weight: bold;
-		margin-left: 5px;
-	}
+  img{
+    width: 25px;
+    height: 25px;
+  }
+
+  p{
+    color: ${(props) => props.theme.black};
+    font-weight: bold;
+    margin-left: 5px;
+  }
 `;
 
 function FilmeCard({
@@ -86,6 +86,8 @@ function FilmeCard({
     Title, Plot, Poster, Ratings,
   },
   handleClick,
+  favorito,
+  pagina,
 }) {
   const newRatings = Ratings.map((rating) => {
     const icon = rating.Source.split(' ').join('');
@@ -108,8 +110,7 @@ function FilmeCard({
           </Rating>
         ))}
         <div className="filme-card__buttons-wrapper">
-          <Button>ver mais</Button>
-          <Button onClick={handleClick}>favoritar</Button>
+          {pagina && pagina === 'home' && <Button favorito={favorito} onClick={handleClick}>favoritar</Button>}
         </div>
       </div>
     </FilmeCardWrapper>
@@ -117,7 +118,9 @@ function FilmeCard({
 }
 
 FilmeCard.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
+  favorito: PropTypes.bool,
+  pagina: PropTypes.string.isRequired,
   filme: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Plot: PropTypes.string.isRequired,

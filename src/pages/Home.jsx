@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-alert */
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -7,60 +11,63 @@ import InputSearch from '../components/InputSearch';
 import FilmeCard from '../components/FilmeCard';
 
 const Form = styled.form`
-	width: 100%;
-	padding: 60px 30px;
-	border-radius: 15px;
-	background-color: ${(props) => props.theme.primary};
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
+  width: 100%;
+  padding: 60px 30px;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.primary};
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 
-	p {
-		font-size: 30px;
-		margin-bottom: 30px;
+  p {
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #fff;
 
-		span {
-			font-weight: bold;
-		}
-	}
+    span {
+      font-weight: bold;
+    }
+  }
 
-	.form-itens {
-		&__wrapper {
-			display: flex;
-		}
-	}
+  .form-itens {
+    &__wrapper {
+      display: flex;
+    }
+  }
 `;
 
 const Submit = styled.button`
-	background-color: ${(props) => props.theme.secondary};
-	border: none;
-	font-size: 20px;
-	padding:10px 40px;
-	cursor: pointer;
-	border-radius: 10px;
-	outline: none;
-	margin-left: 10px;
-	font-weight: bold;
-	box-shadow: ${(props) => props.theme.sombra1};
-	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  background-color: #fff;
+  color: ${(props) => props.theme.primary};
+  border: none;
+  font-size: 20px;
+  padding:10px 40px;
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+  margin-left: 10px;
+  font-weight: bold;
+  box-shadow: ${(props) => props.theme.sombra1};
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
-	&:hover {
-		box-shadow: ${(props) => props.theme.sombra2};
-	}
+  &:hover {
+    box-shadow: ${(props) => props.theme.sombra2};
+  }
 `;
 
 const ListCards = styled.div`
-	margin-top: 60px;
-	width: 100%;
+  margin-top: 60px;
+  width: 100%;
 
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 `;
 
 
 function Home() {
   const [info, setInfo] = useState({
     filmeName: '',
+    favorito: false,
   });
 
   const [filme, setFilme] = useState(undefined);
@@ -78,9 +85,18 @@ function Home() {
       localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
     } else {
       const data = JSON.parse(favoritos);
+
+      data.map((favorito) => {
+        if (favorito.imdbID === filme.imdbID) {
+          alert('Filme já adicionado nos Favoritos!');
+          return false;
+        }
+      });
+
       data.push(filme);
-      console.log(data);
-      localStorage.setItem('@user-data/favoritos', JSON.stringify(data));
+      localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
+
+      alert('Filme adicionado aos Favoritos!');
     }
   };
 
@@ -88,6 +104,15 @@ function Home() {
     e.preventDefault();
 
     await axios.get(`http://www.omdbapi.com/?t=${info.filmeName}&apikey=218dfffb`).then((resp) => {
+      if (info.filmeName.length < 1) {
+        alert('Escreva o nome do Filme!');
+        return false;
+      }
+
+      if (resp.data.Response === 'False' && info.filmeName.length > 1) {
+        alert('Filme não encontrado!');
+        return false;
+      }
       setFilme(resp.data);
     });
   };
@@ -96,7 +121,7 @@ function Home() {
     <Container>
       <Form onSubmit={handleSubmit}>
         <p>
-					Faça a busca
+          Faça a busca
           <br />
           <span>do seu filme favorito</span>
         </p>
@@ -112,7 +137,7 @@ function Home() {
         </div>
       </Form>
       <ListCards>
-        {filme && filme !== undefined && <FilmeCard filme={filme} handleClick={() => addFavoritos()} />}
+        {filme && filme !== undefined && <FilmeCard filme={filme} handleClick={() => addFavoritos()} favorito={info.favorito} pagina="home" />}
       </ListCards>
     </Container>
   );

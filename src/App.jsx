@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 
 // Pages
 import Home from './pages/Home';
+import Favoritos from './pages/Favoritos';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route component={Home} path="/" exact />
+            <Route component={Favoritos} path="/favoritos" />
           </Switch>
         </BrowserRouter>
       </>
