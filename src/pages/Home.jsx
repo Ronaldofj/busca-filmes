@@ -61,6 +61,10 @@ const ListCards = styled.div`
 
   display: flex;
   justify-content: center;
+
+  .aviso{
+    font-size: 25px;
+  }
 `;
 
 
@@ -68,6 +72,7 @@ function Home() {
   const [info, setInfo] = useState({
     filmeName: '',
     favorito: false,
+    buscando: false,
   });
 
   const [filme, setFilme] = useState(undefined);
@@ -105,6 +110,8 @@ function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setInfo({ ...info, buscando: true });
+
     await axios.get(`http://www.omdbapi.com/?t=${info.filmeName}&apikey=218dfffb`).then((resp) => {
       if (info.filmeName.length < 1) {
         alert('Escreva o nome do Filme!');
@@ -115,6 +122,9 @@ function Home() {
         alert('Filme não encontrado!');
         return false;
       }
+
+      setInfo({ ...info, buscando: false });
+
       setFilme(resp.data);
     });
   };
@@ -140,6 +150,7 @@ function Home() {
       </Form>
       <ListCards>
         {filme && filme !== undefined && <FilmeCard filme={filme} handleClick={() => addFavoritos()} favorito={info.favorito} pagina="home" />}
+        {info.buscando && <p className="aviso">Buscando...</p>}
       </ListCards>
     </Container>
   );
