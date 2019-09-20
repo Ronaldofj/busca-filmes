@@ -4,6 +4,9 @@ import { ThemeProvider } from 'styled-components';
 import { tema } from './styles/base';
 import GlobalStyle from './styles/GlobalStyle';
 
+// Components
+import Navbar from './components/Navbar';
+
 // Pages
 import Home from './pages/Home';
 
@@ -14,6 +17,7 @@ function App() {
       <>
         <GlobalStyle />
         <BrowserRouter>
+          <Navbar />
           <Switch>
             <Route component={Home} path="/" exact />
           </Switch>

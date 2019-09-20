@@ -25,6 +25,7 @@ time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+		font-family: 'Roboto Condensed', sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -33,6 +34,10 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
+		font-family: 'Roboto Condensed', sans-serif;
+}
+button, input {
+	font-family: 'Roboto Condensed', sans-serif;
 }
 ol, ul {
     list-style: none;
