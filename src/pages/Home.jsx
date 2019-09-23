@@ -19,6 +19,12 @@ const Form = styled.form`
   flex-direction: column;
   box-sizing: border-box;
 
+  @media (max-width: 660px) {
+    p{
+      text-align: center;
+    }
+  }
+
   p {
     font-size: 30px;
     margin-bottom: 30px;
@@ -32,6 +38,11 @@ const Form = styled.form`
   .form-itens {
     &__wrapper {
       display: flex;
+
+      @media (max-width: 660px) {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   }
 `;
@@ -49,6 +60,12 @@ const Submit = styled.button`
   font-weight: bold;
   box-shadow: ${(props) => props.theme.sombra1};
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+  @media (max-width: 660px) {
+    margin-left: 0;
+    margin-top: 20px;
+    width: fit-content;
+  }
 
   &:hover {
     box-shadow: ${(props) => props.theme.sombra2};

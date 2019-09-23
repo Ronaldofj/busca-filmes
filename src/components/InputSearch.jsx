@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const InputWrapper = styled.div`
+  max-width: 600px;
+
   input {
     height: 50px;
     width: 400px;
@@ -13,6 +15,14 @@ const InputWrapper = styled.div`
     border: none;
     background-color: #fff;
     outline: none;
+    box-sizing: border-box;
+
+    @media(max-width: 660px) {
+      width: 100%;
+      input {
+        width: 100%;
+      }
+    }
   }
 `;
 

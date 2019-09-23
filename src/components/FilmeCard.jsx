@@ -23,15 +23,32 @@ const FilmeCardWrapper = styled.div`
   margin-bottom: 40px;
 
   display: flex;
-  width: 550px;
+  max-width: 550px;
   box-sizing: border-box;
 
-
-  img{
-    height: 300px;
+  @media(max-width: 550px) {
+    flex-direction: column;
   }
 
   .filme-card {
+    &__image-wrapper {
+      background-color: #000;
+
+      img{
+        height: 300px;
+      }
+
+      @media(max-width: 550px) {
+        display: flex;
+        justify-content: center;
+
+          img{
+            width: 280px;
+            height: auto;
+          }
+      }
+    }
+
     &__title{
       background-color: ${(props) => props.theme.primary};
       font-size: 25px;
@@ -99,7 +116,9 @@ function FilmeCard({
 
   return (
     <FilmeCardWrapper>
-      <img src={Poster} alt={Title} />
+      <div className="filme-card__image-wrapper">
+        <img src={Poster} alt={Title} />
+      </div>
       <div className="filme-card__content-wrapper">
         <p className="filme-card__title">{Title}</p>
         <p className="filme-card__text">{`Sinopse: ${Plot}`}</p>
