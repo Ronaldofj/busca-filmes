@@ -90,6 +90,7 @@ function Home() {
     filmeName: '',
     favorito: false,
     buscando: false,
+    filmeRepetido: false,
   });
 
   const [filme, setFilme] = useState(undefined);
@@ -112,15 +113,19 @@ function Home() {
 
       data.map((favorito) => {
         if (favorito.imdbID === filme.imdbID) {
-          alert('Filme já adicionado nos Favoritos!');
-          return false;
+          setInfo({
+            ...info, filmeRepetido: true,
+          });
         }
       });
 
-      data.push(filme);
-      localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
-
-      alert('Filme adicionado aos Favoritos!');
+      if (info.filmeRepetido) {
+        data.push(filme);
+        localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
+        alert('Filme adicionado aos Favoritos!');
+      } else {
+        alert('Filme já adicionado nos Favoritos!');
+      }
     }
   };
 
