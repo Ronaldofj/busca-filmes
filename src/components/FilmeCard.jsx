@@ -100,7 +100,7 @@ const Rating = styled.div`
 
 function FilmeCard({
   filme: {
-    Title, Plot, Poster, Ratings,
+    Title, Plot, Poster, Ratings, imdbID,
   },
   handleClick,
   favorito,
@@ -130,6 +130,7 @@ function FilmeCard({
         ))}
         <div className="filme-card__buttons-wrapper">
           {pagina && pagina === 'home' && <Button favorito={favorito} onClick={handleClick}>favoritar</Button>}
+          {/* {pagina && pagina === 'favoritos' && <Button onClick={() => handleClick(imdbID)} favorito={favorito}>remover</Button>} */}
         </div>
       </div>
     </FilmeCardWrapper>

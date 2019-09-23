@@ -116,10 +116,11 @@ function Home() {
           setInfo({
             ...info, filmeRepetido: true,
           });
+          console.log('Teste');
         }
       });
 
-      if (info.filmeRepetido) {
+      if (!info.filmeRepetido) {
         data.push(filme);
         localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(data));
         alert('Filme adicionado aos Favoritos!');

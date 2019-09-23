@@ -22,6 +22,21 @@ export default function Favoritos() {
     pesquisa: false,
   });
 
+  function removerFavorito(id) {
+    console.log('oi', id);
+
+    const novosFavoritos = favoritos.filter((favorito) => {
+      if (id !== favorito.imdbID) {
+        return favorito;
+      }
+    });
+
+    localStorage.setItem('@user-data/filmes-favoritos', JSON.stringify(novosFavoritos));
+
+    setFavoritos({
+      novosFavoritos,
+    });
+  }
 
   useEffect(() => {
     async function buscaFavoritos() {
@@ -38,7 +53,7 @@ export default function Favoritos() {
   return (
     <Container>
       <ListCards>
-        {favoritos && favoritos.length >= 1 && favoritos.map((favorito) => <FilmeCard filme={favorito} pagina="favoritos" />)}
+        {favoritos && favoritos.length >= 1 && favoritos.map((favorito) => <FilmeCard key={favorito.imdbID} handleClick={removerFavorito} filme={favorito} pagina="favoritos" />)}
         {favoritos && favoritos.length < 1 && controles.pesquisa === true || favoritos === null && controles.pesquisa === true && <p className="aviso">Sem favoritos!</p>}
       </ListCards>
     </Container>
